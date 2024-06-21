@@ -1,0 +1,1 @@
+// GOAL: Uses library puppeeter to automate generating video with invideo ai website (after getting **music** and **quote** and **background**)

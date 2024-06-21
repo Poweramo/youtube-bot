@@ -1,0 +1,1 @@
+// GOAL: Publish the video with youtube api
