@@ -1,31 +1,23 @@
+// TODO: when linksMusicUsed is full, clear it "add code obviously" 
+// ? if linksMusicUsed.length >= links.length
+// ! same for getQuote
+
 const { linksMusicUsed } = require("./config.json")
 const getMusic = require("./getMusic")
 
 module.exports = async () => {
     const musicLinks = await getMusic()
-    console.log(musicLinks);
-
     let musictoUse = musicLinks[Math.round(Math.random() * musicLinks.length)]
 
-
-
-    // isLinkUsed()
-
     const isMusicUsed = () => {
-        for (let j = 0; j < linksMusicUsed.length; j++) {
-            const linkMusicUsed = linksMusicUsed[j];
-            if (musictoUse === linkMusicUsed) {
+        for (let i = 0; i < linksMusicUsed.length; i++) {
+            if (musictoUse === linksMusicUsed[i] || !musictoUse) {
                 musictoUse = musicLinks[Math.round(Math.random() * musicLinks.length)]
-                console.log(musictoUse);
                 isMusicUsed()
             }
-
-
         }
-
     }
 
     isMusicUsed()
     return musictoUse
-
 }

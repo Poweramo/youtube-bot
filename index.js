@@ -1,16 +1,19 @@
 // ! setinterval 24 hours with the necessary functions
-// TODO: Adding the music links to the { linksMusicUsed } in the config.json (push method doesn't work)
+// ! don't forget to clear the usedLinks and quoteUsed arrays when project deploy is ready
 
-const getMusic = require("./getMusic");
 const getQuote = require("./getQuote");
 const useMusic = require("./useMusic");
-const { linksMusicUsed } = require("./config.json");
+const makeQuoteUsed = require("./makeQuoteUsed");
+const makeMusicUsed = require("./makeMusicUsed");
 
 (async function () {
     const data = await getQuote()
-    let { quote, author, category } = data
     const musicLink = await useMusic()
-    console.log("a =" + musicLink);
+    let { quote, author, category } = data
+
+
+    makeQuoteUsed(data)
+    makeMusicUsed(musicLink)
 })()
 
 
