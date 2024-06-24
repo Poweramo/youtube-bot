@@ -1,1 +1,0 @@
-// GOAL: Gets background for the video (will see how to do it)
