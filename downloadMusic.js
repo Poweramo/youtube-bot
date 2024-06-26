@@ -22,20 +22,22 @@ module.exports = async (link) => {
         downloadPath: path.resolve("./music")
     });
 
+
     await page.setViewport({ width: 1080, height: 1024 });
-    await page.goto("https://savemp3.net/i7igt/");
+    await page.goto("https://savemp3.net/qdigs/");
     await page.locator(".search--input").fill(link);
 
     const btn = await page.waitForSelector(".track--download.btn--icon.tooltip.download-button", { visible: true });
+
     await btn.click()
 
-    await delay(15000)
+    await delay(60000)
 
 
     await browser.close()
 
     const res = await fs.readdirSync(path.resolve("./music"))
-    const musicFile = path.resolve(`./music/${res[0]}`)
+    const musicFile = "http://localhost:3000/music/" + res[0]
 
 
 

@@ -22,7 +22,6 @@ const path = require("path");
     makeMusicUsed(musicLink)
 
     generateVideo(quote, author, musicLink, background)
-
 })()
 
 
