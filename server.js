@@ -1,4 +1,5 @@
 const http = require("http")
+const index = require("./index")
 
 const server = http.createServer((req, res) => {
     res.statusCode = 200;

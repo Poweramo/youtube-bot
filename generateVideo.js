@@ -1,6 +1,5 @@
 // GOAL: Generate video with assets and adds it to the video folder
-// ? check if background works, if not :
-// ! downloaded into bg folder => in downloadBg file
+// ! music doesn't work
 // ? generate a random string for each movie id
 
 const { videoApiKey, myTemplateId } = require("./config.json");
@@ -12,10 +11,11 @@ const { Movie, Scene } = require("json2video-sdk")
 
 module.exports = async (quote, quoteAuthor, music, background) => {
     const musicFile = await downloadMusic(music)
+    let randomString;
+    let videoLink;
 
     let movie = new Movie();
     movie.setAPIKey(videoApiKey)
-    movie.set("id", "qehutluogtwrhsr")
     movie.set("cache", false)
     movie.set("draft", false)
     movie.set("height", 1920)
@@ -27,21 +27,18 @@ module.exports = async (quote, quoteAuthor, music, background) => {
     scene.set("duration", 30)
     scene.addElement({
         type: "image",
-        src: background
+        src: background,
+        cache: false
     })
     scene.addElement({
         type: "text",
-        text: quote
+
+        text: `${quote}
+        - ${quoteAuthor}`,
+        cache: false
     }
     )
-    scene.addElement({
-        type: "text",
-        text: quoteAuthor
-    })
-    scene.addElement({
-        type: "audio",
-        src: musicFile
-    })
+
 
 
     movie.addScene(scene)
@@ -49,6 +46,19 @@ module.exports = async (quote, quoteAuthor, music, background) => {
     let render = await movie.render();
     console.log(render);
 
+    await movie
+        .waitToFinish((status) => {
+            console.log("Rendering: ", status.movie.status, " / ", status.movie.message);
+        })
+        .then((status) => {
+            console.log("Response: ", status);
+            console.log("Movie is ready: ", status.movie.url);
+            videoLink = status.movie.url
+        })
+        .catch((err) => {
+            console.log("Error: ", err);
+        });
 
+    return videoLink
 
 }

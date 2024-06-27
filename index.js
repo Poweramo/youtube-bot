@@ -11,6 +11,8 @@ const generateVideo = require("./generateVideo");
 const downloadMusic = require("./downloadMusic");
 const fs = require("fs");
 const path = require("path");
+const publishVideo = require("./publishVideo");
+
 
 (async function () {
     const data = await getQuote()
@@ -22,7 +24,9 @@ const path = require("path");
     makeMusicUsed(musicLink)
 
     generateVideo(quote, author, musicLink, background)
+
 })()
+
 
 
 
