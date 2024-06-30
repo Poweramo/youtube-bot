@@ -1,1 +1,0 @@
-// GOAL: Downloads background in the video bg folder (after getting it from lorem ipsum)

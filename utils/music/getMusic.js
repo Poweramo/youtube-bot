@@ -1,6 +1,7 @@
 // GOAL: Purpose: gets one video from the channel nocopyrightmusic https://www.youtube.com/@NoCopyrightSounds
+// TODO: Transform 1H8M22S into 4102000 ms then check if time is lower than 5 minutes (300000)
 
-const { youtubeApiKey, uploadsId } = require("./config.json");
+const { youtubeApiKey, uploadsId } = require("../../config.json");
 
 module.exports = async () => {
     const res = await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${uploadsId}&key=${youtubeApiKey}`)

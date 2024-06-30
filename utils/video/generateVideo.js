@@ -1,20 +1,16 @@
 // GOAL: Generate video with assets and adds it to the video folder
-// ! music doesn't work
-// ? generate a random string for each movie id
 
-const { videoApiKey, myTemplateId } = require("./config.json");
-const downloadMusic = require("./downloadMusic");
+const { videoApiKey } = require("../../config.json");
+const downloadMusic = require("../music/downloadMusic");
 const fs = require("fs")
-const path = require("path")
 const { Movie, Scene } = require("json2video-sdk")
 
 
 module.exports = async (quote, quoteAuthor, music, background) => {
     const musicFile = await downloadMusic(music)
-    let randomString;
     let videoLink;
-
     let movie = new Movie();
+
     movie.setAPIKey(videoApiKey)
     movie.set("cache", false)
     movie.set("draft", false)
@@ -23,6 +19,7 @@ module.exports = async (quote, quoteAuthor, music, background) => {
     movie.set("quality", "high")
 
     let scene = new Scene();
+
     scene.set("cache", false)
     scene.set("duration", 30)
     scene.addElement({
@@ -32,19 +29,20 @@ module.exports = async (quote, quoteAuthor, music, background) => {
     })
     scene.addElement({
         type: "text",
-
         text: `${quote}
         - ${quoteAuthor}`,
         cache: false
     }
     )
-
-
-
+    scene.addElement({
+        type: "audio",
+        src: musicFile,
+        cache: false
+    }
+    )
     movie.addScene(scene)
 
     let render = await movie.render();
-    console.log(render);
 
     await movie
         .waitToFinish((status) => {
@@ -60,5 +58,4 @@ module.exports = async (quote, quoteAuthor, music, background) => {
         });
 
     return videoLink
-
 }
