@@ -1,4 +1,5 @@
 // GOAL: Download the music after getting the youtube link
+// ! Download doesn't work sometimes because of timeout of puppeteer
 
 const puppeteer = require("puppeteer")
 const fs = require("fs")
@@ -11,6 +12,8 @@ module.exports = async (link) => {
         });
     }
 
+
+
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     const client = await page.target().createCDPSession()
@@ -20,17 +23,18 @@ module.exports = async (link) => {
     });
 
     await page.setViewport({ width: 1080, height: 1024 });
-    await page.goto("https://savemp3.net/qdigs/");
-    await page.locator(".search--input").fill(link);
+    await page.goto("https://savemp3.net/kkbgy/");
+    await page.locator(".search--input").fill(link)
 
-    const btn = await page.waitForSelector(".track--download.btn--icon.tooltip.download-button", { visible: true });
+    const btn = await page.locator(".track--download.btn--icon.tooltip.download-button")
 
     await btn.click()
     await delay(60000)
     await browser.close()
 
     const res = await fs.readdirSync(path.resolve("./assets/music"))
-    const musicFile = path.resolve("./assets/music") + "/" + res[0]
+    const musicName = res[0]
+    const musicPath = path.join(path.resolve("./assets/music"), res[0])
 
-    return musicFile
+    return { name: musicName, path: musicPath }
 }

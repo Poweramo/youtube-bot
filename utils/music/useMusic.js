@@ -1,25 +1,24 @@
-// FIX: change formula to generate random number between 0 and musicLinks.length
-
 const { linksMusicUsed } = require("./musicUsed.json")
 const getMusic = require("./getMusic")
 const resetMusics = require("./resetMusics")
+const getDriveLink = require("../drive-api/getDriveLink")
 
 module.exports = async () => {
     const musicLinks = await getMusic()
-    let musictoUse = musicLinks[Math.round(Math.random() * musicLinks.length)]
+    let musicToUse = musicLinks[Math.floor((Math.random() * musicLinks.length) + 1)]
 
     const isMusicUsed = () => {
         if (musicLinks.length === linksMusicUsed.length) {
             resetMusics()
         }
         for (let i = 0; i < linksMusicUsed.length; i++) {
-            if (musictoUse === linksMusicUsed[i] || !musictoUse) {
-                musictoUse = musicLinks[Math.round(Math.random() * musicLinks.length)]
+            if (musicToUse === linksMusicUsed[i] || !musicToUse) {
+                musicToUse = musicLinks[Math.floor(Math.random() * musicLinks.length)]
                 isMusicUsed()
             }
         }
     }
 
     isMusicUsed()
-    return musictoUse
+    return musicToUse
 }

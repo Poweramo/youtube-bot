@@ -1,13 +1,14 @@
 // GOAL: Generate video with assets and adds it to the video folder
 
 const { videoApiKey } = require("../../config.json");
-const downloadMusic = require("../music/downloadMusic");
+const getDriveLink = require("../drive-api/getDriveLink");
 const fs = require("fs")
-const { Movie, Scene } = require("json2video-sdk")
+const { Movie, Scene } = require("json2video-sdk");
+const deleteMusic = require("../music/deleteMusic");
 
 
 module.exports = async (quote, quoteAuthor, music, background) => {
-    const musicFile = await downloadMusic(music)
+    const musicDrive = await getDriveLink(music)
     let videoLink;
     let movie = new Movie();
 
@@ -34,9 +35,10 @@ module.exports = async (quote, quoteAuthor, music, background) => {
         cache: false
     }
     )
+
     scene.addElement({
         type: "audio",
-        src: musicFile,
+        src: musicDrive.link,
         cache: false
     }
     )
@@ -56,6 +58,8 @@ module.exports = async (quote, quoteAuthor, music, background) => {
         .catch((err) => {
             console.log("Error: ", err);
         });
+
+    deleteMusic(musicDrive.id)
 
     return videoLink
 }

@@ -1,21 +1,31 @@
-// GOAL: Publish the video with youtube api (and then deleted from video folder)
+// GOAL: Publish the video with youtube api
+// ! set privacyStatus to public
+// ! change thumbnails to the ones that FB CREATIONS made
 
 const fs = require("fs")
 const path = require("path")
-const https = require("https")
+const { get } = require("https")
 const { Readable } = require("stream")
 const { google } = require("googleapis")
-const service = google.youtube("v3");
+const OAuth2 = google.auth.OAuth2
+const { clientId, clientSecret, youtubeToken } = require("../../config.json")
+const oauth2Client = new OAuth2(clientId, clientSecret, "http://localhost")
 
-module.exports = async (auth, videoFile, title, description, tags) => {
+
+module.exports = async (videoFile, title, description, tags) => {
     const scopes = ["https://www.googleapis.com/auth/youtube.upload"]
+    oauth2Client.setCredentials({ refresh_token: youtubeToken })
+    const service = google.youtube({
+        version: "v3",
+        auth: oauth2Client
+    });
 
     const createUrlReadStream = (url) => {
         const readable = new Readable({
             read() { },
         })
 
-        https.get(url, (response) => {
+        get(url, (response) => {
             response.on("data", (chunk) => {
                 readable.push(chunk)
             })
@@ -30,46 +40,30 @@ module.exports = async (auth, videoFile, title, description, tags) => {
         return readable
     }
 
-    service.videos.insert({
-        auth: auth,
+    const res1 = await service.videos.insert({
         part: "snippet,status",
         requestBody: {
             snippet: {
-                title,
-                description,
-                tags,
-                categoryId: 27,
+                title: title,
+                description: description,
+                tags: tags,
+                categoryId: 24,
                 defaultLanguage: "en",
                 defaultAudioLanguage: "en"
             },
             status: {
-                privacyStatus: "private" // ! set to public later
-                // TODO: appeal in google dev console for public
+                privacyStatus: "private"
             },
         },
         media: {
             body: createUrlReadStream(videoFile)
-        },
-    }, (err, response) => {
-        if (err) {
-            console.log("The API returned an error: " + err);
-            return;
         }
-        console.log(response.data)
+    })
 
-        console.log("Video uploaded. Uploading the thumbnail now.")
-        service.thumbnails.set({
-            auth: auth,
-            videoId: response.data.id,
-            media: {
-                body: fs.createReadStream(path.resolve(`./assets/thumbnail/thumbnail.jpg`)) // ! change it to a stable and good thumbnail
-            },
-        }, (err, response) => {
-            if (err) {
-                console.log("The API returned an error: " + err);
-                return;
-            }
-            console.log(response.data)
-        })
-    });
+    const res2 = await service.thumbnails.set({
+        videoId: res1.data.id,
+        media: {
+            body: fs.createReadStream(path.resolve(`./assets/thumbnail/thumbnail.jpg`))
+        }
+    })
 }
