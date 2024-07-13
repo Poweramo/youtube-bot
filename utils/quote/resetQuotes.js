@@ -1,9 +1,9 @@
-const fs = require("fs")
+import fs from "fs";
 
-module.exports = () => {
-    const rawData = fs.readFileSync("./quoteUsed.json", { encoding: "utf-8" })
-    const data = JSON.parse(rawData)
+export default function () {
+	const rawData = fs.readFileSync("./utils/quote/quoteUsed.json", { encoding: "utf-8" });
+	const data = JSON.parse(rawData);
 
-    rawData.quoteUsed = []
-    fs.writeFileSync("./quoteUsed.json", JSON.stringify(rawData), { encoding: "utf-8" })
+	data.quoteUsed = [];
+	fs.writeFileSync("./utils/quote/quoteUsed.json", JSON.stringify(data), { encoding: "utf-8" });
 }

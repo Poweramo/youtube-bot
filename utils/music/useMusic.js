@@ -1,24 +1,23 @@
-const { linksMusicUsed } = require("./musicUsed.json")
-const getMusic = require("./getMusic")
-const resetMusics = require("./resetMusics")
-const getDriveLink = require("../drive-api/getDriveLink")
+import getMusic from "./getMusic.js";
+import musicJson from "./musicUsed.json" assert { type: "json" };
+import resetMusics from "./resetMusics.js";
 
-module.exports = async () => {
-    const musicLinks = await getMusic()
-    let musicToUse = musicLinks[Math.floor((Math.random() * musicLinks.length) + 1)]
+export default async function () {
+	const musicLinks = await getMusic();
+	let musicToUse = musicLinks[Math.floor(Math.random() * musicLinks.length + 1)];
 
-    const isMusicUsed = () => {
-        if (musicLinks.length === linksMusicUsed.length) {
-            resetMusics()
-        }
-        for (let i = 0; i < linksMusicUsed.length; i++) {
-            if (musicToUse === linksMusicUsed[i] || !musicToUse) {
-                musicToUse = musicLinks[Math.floor(Math.random() * musicLinks.length)]
-                isMusicUsed()
-            }
-        }
-    }
+	const isMusicUsed = () => {
+		if (musicLinks.length === musicJson.linksMusicUsed.length) {
+			resetMusics();
+		}
+		for (let i = 0; i < musicJson.linksMusicUsed.length; i++) {
+			if (musicToUse === musicJson.linksMusicUsed[i] || !musicToUse) {
+				musicToUse = musicLinks[Math.floor(Math.random() * musicLinks.length)];
+				isMusicUsed();
+			}
+		}
+	};
 
-    isMusicUsed()
-    return musicToUse
+	isMusicUsed();
+	return musicToUse;
 }

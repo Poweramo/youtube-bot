@@ -1,36 +1,36 @@
 // ! setinterval 24 hours with the necessary functions
+// ! problem with google drive token (don't know why yet)
+// TEST: if drive token works tomorrow
 
-const fs = require("fs");
-const getQuote = require("./utils/quote/getQuote");
-const useMusic = require("./utils/music/useMusic");
-const makeQuoteUsed = require("./utils/quote/makeQuoteUsed");
-const makeMusicUsed = require("./utils/music/makeMusicUsed");
-const generateVideo = require("./utils/video/generateVideo");
-const publishVideo = require("./utils/video/publishVideo");
-
+import makeMusicUsed from "./utils/music/makeMusicUsed.js";
+import useMusic from "./utils/music/useMusic.js";
+import counterObject from "./utils/others/counter.json" assert { type: "json" };
+import getQuote from "./utils/quote/getQuote.js";
+import makeQuoteUsed from "./utils/quote/makeQuoteUsed.js";
+import changeCounter from "./utils/video/changeCounter.js";
+import generateVideo from "./utils/video/generateVideo.js";
+import publishVideo from "./utils/video/publishVideo.js";
 
 (async function () {
-    const data = await getQuote()
-    const musicLink = await useMusic()
-    console.log(musicLink);
-    let { quote, author } = data
-    const background = "https://picsum.photos/1080/1920"
-    const videoLink = await generateVideo(quote, author, musicLink, background)
+	const data = await getQuote();
+	const musicLink = await useMusic();
+	let { quote, author } = data;
+	const background = "https://picsum.photos/1080/1920";
+	const description = `Hi everyone!
+		\n
+		This channel is made to improve your knowledge with practical quotes from the most popular and famous personalities.
+		\n
+		We hope you enjoy our videos!`;
+	const videoLink = await generateVideo(quote, author, musicLink, background);
 
-    makeQuoteUsed(data)
-    makeMusicUsed(musicLink)
+	makeQuoteUsed(data);
+	makeMusicUsed(musicLink);
 
-
-
-    publishVideo(videoLink, "Quote #3", "", ["motivation", "inspirational"])
-
-
-})()
-
-
-
-
-
-
-
-
+	publishVideo(videoLink, `Quote ${counterObject.counter}`, description, [
+		"motivation",
+		"inspirational",
+		"quotes",
+		"education",
+	]);
+	changeCounter();
+})();

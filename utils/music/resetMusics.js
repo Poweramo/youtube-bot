@@ -1,9 +1,9 @@
-const fs = require("fs")
+import fs from "fs";
 
-module.exports = () => {
-    const rawData = fs.readFileSync("./musicUsed.json", { encoding: "utf-8" })
-    const data = JSON.parse(rawData)
+export default function () {
+	const rawData = fs.readFileSync("./utils/music/musicUsed.json", { encoding: "utf-8" });
+	const data = JSON.parse(rawData);
 
-    rawData.linksMusicUsed = []
-    fs.writeFileSync("./musicUsed.json", JSON.stringify(rawData), { encoding: "utf-8" })
+	data.linksMusicUsed = [];
+	fs.writeFileSync("./utils/music/musicUsed.json", JSON.stringify(data), { encoding: "utf-8" });
 }

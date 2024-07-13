@@ -1,9 +1,8 @@
 {
 	"ignore": [
 		"./config.json",
-		"./token.json",
-		"./client-secret.json",
 		"./utils/music/musicUsed.json",
-		"./utils/quote/quoteUsed.json"
+		"./utils/quote/quoteUsed.json",
+		"./utils/others/counter.json"
 	]
 }
