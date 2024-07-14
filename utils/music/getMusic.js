@@ -20,7 +20,6 @@ export default async function () {
 		const time = changeTimeToSeconds(data2.items[0].contentDetails.duration);
 
 		if (time > 60 && time < 210) {
-			console.log(time);
 			links.push("https://www.youtube.com/watch?v=" + video.snippet.resourceId.videoId);
 		}
 	}

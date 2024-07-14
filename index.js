@@ -4,10 +4,10 @@
 
 import makeMusicUsed from "./utils/music/makeMusicUsed.js";
 import useMusic from "./utils/music/useMusic.js";
+import changeCounter from "./utils/others/changeCounter.js";
 import counterObject from "./utils/others/counter.json" assert { type: "json" };
 import getQuote from "./utils/quote/getQuote.js";
 import makeQuoteUsed from "./utils/quote/makeQuoteUsed.js";
-import changeCounter from "./utils/video/changeCounter.js";
 import generateVideo from "./utils/video/generateVideo.js";
 import publishVideo from "./utils/video/publishVideo.js";
 

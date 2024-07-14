@@ -6,7 +6,6 @@ import fs from "fs";
 import { google } from "googleapis";
 import path from "path";
 import config from "../../config.json" assert { type: "json" };
-import authorize from "../auth/authorize.js";
 import delay from "../others/delay.js";
 import downloadMusic from "./downloadMusic.js";
 const OAuth2 = google.auth.OAuth2;
@@ -15,8 +14,8 @@ const oauth2Client = new OAuth2(config.clientId, config.clientSecret, config.red
 export default async function (link) {
 	const musicPath = path.resolve("./assets/music/music.mp3");
 	downloadMusic(link);
-	delay(60000);
-	authorize();
+	await delay(60000);
+
 	oauth2Client.setCredentials({ refresh_token: config.driveToken });
 
 	const drive = google.drive({
