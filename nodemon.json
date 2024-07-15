@@ -1,8 +1,0 @@
-{
-	"ignore": [
-		"./config.json",
-		"./utils/music/musicUsed.json",
-		"./utils/quote/quoteUsed.json",
-		"./utils/others/counter.json"
-	]
-}

@@ -3,6 +3,6 @@ node_modules
 package-lock.json
 package.json
 nodemon.json
-./utils/music/musicUsed.json
-./utils/quote/quoteUsed.json
-./utils/others/counter.json
+/utils/others/counter.json
+/utils/quote/quoteUsed.json
+/utils/music/musicUsed.json
