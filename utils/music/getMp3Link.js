@@ -1,7 +1,3 @@
-// ! the functions in auth folder don't work
-// ! refresh token or drive token doesn't work
-// FIX: Wait for music file until it appears
-
 import fs from "fs";
 import { google } from "googleapis";
 import path from "path";

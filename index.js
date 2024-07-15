@@ -1,6 +1,4 @@
 // ! setinterval 24 hours with the necessary functions
-// ! problem with google drive token (don't know why yet)
-// TEST: if drive token works tomorrow
 
 import makeMusicUsed from "./utils/music/makeMusicUsed.js";
 import useMusic from "./utils/music/useMusic.js";
