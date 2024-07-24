@@ -1,9 +1,8 @@
 import fs from "fs";
-
+import quoteUsedObject from "./quoteUsed.json" assert { type: "json" };
 export default function () {
-	const rawData = fs.readFileSync("./utils/quote/quoteUsed.json", { encoding: "utf-8" });
-	const data = JSON.parse(rawData);
-
-	data.quoteUsed = [];
-	fs.writeFileSync("./utils/quote/quoteUsed.json", JSON.stringify(data), { encoding: "utf-8" });
+	quoteUsedObject.quoteUsed = [];
+	fs.writeFileSync("./utils/quote/quoteUsed.json", JSON.stringify(quoteUsedObject), {
+		encoding: "utf-8",
+	});
 }

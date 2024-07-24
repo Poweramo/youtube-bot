@@ -1,9 +1,9 @@
 import fs from "fs";
+import musicUsedObject from "./musicUsed.json" assert { type: "json" };
 
 export default function (musicLink) {
-	const rawData = fs.readFileSync("./utils/music/musicUsed.json", { encoding: "utf-8" });
-	const data = JSON.parse(rawData);
-
-	data.linksMusicUsed.push(musicLink);
-	fs.writeFileSync("./utils/music/musicUsed.json", JSON.stringify(data), { encoding: "utf-8" });
+	musicUsedObject.linksMusicUsed.push(musicLink);
+	fs.writeFileSync("./utils/music/musicUsed.json", JSON.stringify(musicUsedObject), {
+		encoding: "utf-8",
+	});
 }
