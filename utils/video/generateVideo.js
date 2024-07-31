@@ -1,14 +1,13 @@
 // GOAL: Generate video with assets and returns an mp4 link of the video
 // TODO: Make a better and well made style for the video
-// ! generated video is longer than 15 seconds
 
 import { Movie, Scene } from "json2video-sdk";
 import config from "../../config.json" assert { type: "json" };
 import deleteMusic from "../music/deleteMusic.js";
-import getDriveLink from "../music/getMp3Link.js";
+import getMp3Link from "../music/getMp3Link.js";
 
 export default async function (quote, quoteAuthor, music, background) {
-	const musicDrive = await getDriveLink(music);
+	const musicDrive = await getMp3Link(music);
 	let videoLink;
 	let movie = new Movie();
 

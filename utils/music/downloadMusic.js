@@ -1,19 +1,16 @@
 // GOAL: Download the music after getting the youtube link
 
-import ytdl from "@distube/ytdl-core";
-import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
-import ffmpeg from "fluent-ffmpeg";
 import path from "path";
+import { Audio } from "yt-converter";
 
 export default async function (link) {
-	const musicPath = path.resolve("./assets/music/music.mp3");
-	ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+	const musicPath = path.resolve("./assets/music");
+	const data = await Audio({
+		url: link,
+		ffmpegPath: "./ffmpeg.exe",
+		directory: musicPath,
+		onDownloading: (d) => console.log(d),
+	});
 
-	const stream = ytdl(link, { quality: "highestaudio" });
-	ffmpeg(stream)
-		.audioBitrate(128)
-		.save(musicPath)
-		.on("end", () => {
-			console.log(`Music downloaded succesfully!`);
-		});
+	return data.pathfile;
 }

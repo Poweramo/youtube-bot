@@ -1,16 +1,11 @@
 import fs from "fs";
 import { google } from "googleapis";
-import path from "path";
 import config from "../../config.json" assert { type: "json" };
-import delay from "../others/delay.js";
-import downloadMusic from "./downloadMusic.js";
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(config.clientId, config.clientSecret, config.redirectUrl);
 
 export default async function (link) {
-	const musicPath = path.resolve("./assets/music/music.mp3");
-	downloadMusic(link);
-	await delay(60000);
+	const musicPath = await downloadMusic(link);
 
 	oauth2Client.setCredentials({ refresh_token: config.driveToken });
 
@@ -43,7 +38,7 @@ export default async function (link) {
 		},
 	});
 
-	const res3 = await drive.files.get({
+	const res3 = drive.files.get({
 		fileId: response1.data.id,
 		fields: "webViewLink",
 	});
