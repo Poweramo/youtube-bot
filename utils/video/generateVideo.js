@@ -72,12 +72,7 @@ export default async function (quote, quoteAuthor, music, background) {
 	await movie.render();
 
 	await movie
-		.waitToFinish((status) => {
-			console.log("Rendering: ", status.movie.status, " / ", status.movie.message);
-		})
 		.then((status) => {
-			console.log("Response: ", status);
-			console.log("Movie is ready: ", status.movie.url);
 			videoLink = status.movie.url;
 		})
 		.catch((err) => {
