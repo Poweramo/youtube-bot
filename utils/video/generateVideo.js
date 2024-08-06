@@ -72,12 +72,11 @@ export default async function (quote, quoteAuthor, music, background) {
 	await movie.render();
 
 	await movie
-		.then((status) => {
-			videoLink = status.movie.url;
+		.waitToFinish((status) => {
+			console.log("Rendering: ", status.movie.status, " / ", status.movie.message);
 		})
-		.catch((err) => {
-			console.log("Error: ", err);
-		});
+		.then((status) => (videoLink = status.movie.url))
+		.catch((err) => console.log("Error: ", err));
 
 	deleteMusic(musicDrive.id);
 

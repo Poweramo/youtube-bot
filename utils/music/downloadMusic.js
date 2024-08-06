@@ -21,7 +21,7 @@ export default async function (link) {
 		downloadPath: downloadPath,
 	});
 	await page.locator("#mp3link_320").click();
-	await delay(5000);
+	await delay(15000);
 	await browser.close();
 
 	const musicFile = fs.readdirSync(downloadPath);
