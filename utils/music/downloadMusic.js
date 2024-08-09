@@ -1,5 +1,4 @@
 // GOAL: Download the music after getting the youtube link
-// TODO: Use another website
 
 import fs from "fs";
 import path from "path";
@@ -8,27 +7,25 @@ import delay from "../others/delay.js";
 
 export default async function (link) {
 	const downloadPath = path.resolve("./assets/music");
-	const YtToMp3Website = "https://getv.topsandtees.space/";
-	const browser = await puppeteer.launch({ headless: true });
+	const YtToMp3Website = "https://5smp3.com/";
+	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	const client = await page.createCDPSession();
 
+	page.setDefaultTimeout(60000 * 2);
 	await page.goto(YtToMp3Website);
-	await page.locator(".form-control.z12").fill(link);
-	await page.locator(".btn").click();
-	await page.locator(".fc-button-label").click();
-	await page.locator(".dl-btn.item__download").click();
 	await client.send("Page.setDownloadBehavior", {
 		behavior: "allow",
 		downloadPath: downloadPath,
 	});
-
-	const downloadBtn = await page
-		.locator(".search-item__download.dl_progress_finished.btn_clck_spec")
-		.waitHandle();
-
+	await page.locator("#txt-url.search__input").fill(link);
+	await page.locator("#btn-submit.btn-red").click();
+	const downloadBtn = await page.waitForSelector(".btn.btn-sm.btn-success");
 	await downloadBtn.click();
+	await page.waitForSelector("#A_downloadUrl.btn.btn-success");
 	await delay(5000);
+	await page.locator("#A_downloadUrl.btn.btn-success").click();
+	await delay(10000);
 	await browser.close();
 
 	const musicFile = fs.readdirSync(downloadPath);
