@@ -12,7 +12,7 @@ export default async function (link) {
 	const page = await browser.newPage();
 	const client = await page.createCDPSession();
 
-	page.setDefaultTimeout(60000 * 2);
+	page.setDefaultTimeout(60000 * 10);
 	await page.goto(YtToMp3Website);
 	await client.send("Page.setDownloadBehavior", {
 		behavior: "allow",
