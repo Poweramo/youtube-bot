@@ -1,9 +1,9 @@
 import fs from "fs";
-import quoteUsedObject from "./quoteUsed.json" assert { type: "json" };
+import quotesUsed from "./quoteUsed.json" assert { type: "json" };
 
 export default function (quoteObject) {
-	quoteUsedObject.quoteUsed.push(quoteObject);
-	fs.writeFileSync("./utils/quote/quoteUsed.json", JSON.stringify(quoteUsedObject), {
+	quotesUsed.push(quoteObject);
+	fs.writeFileSync("./utils/quote/quoteUsed.json", JSON.stringify(quotesUsed), {
 		encoding: "utf-8",
 	});
 }

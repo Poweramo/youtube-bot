@@ -1,7 +1,7 @@
 // GOAL: Gets a random quote with ninja-api
 
 import config from "../../config.json" assert { type: "json" };
-import quoteJson from "./quoteUsed.json" assert { type: "json" };
+import quotesUsed from "./quoteUsed.json" assert { type: "json" };
 import resetQuotes from "./resetQuotes.js";
 
 export default async function () {
@@ -11,11 +11,11 @@ export default async function () {
 	let quoteObject = data[0];
 
 	const isQuoteUsed = async () => {
-		if (quoteJson.quoteUsed.length === 15) {
+		if (quotesUsed.length === 15) {
 			resetQuotes();
 		}
-		for (let i = 0; i < quoteJson.quoteUsed.length; i++) {
-			if (quoteObject.quote === quoteJson.quoteUsed[i].quote) {
+		for (let i = 0; i < quotesUsed.length; i++) {
+			if (quoteObject.quote === quotesUsed[i].quote) {
 				const resTest = await fetch("https://api.api-ninjas.com/v1/quotes", options);
 				const dataTest = await resTest.json();
 				quoteObject = dataTest[0];

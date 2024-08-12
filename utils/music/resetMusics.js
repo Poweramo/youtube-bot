@@ -1,9 +1,9 @@
 import fs from "fs";
-import musicUsedObject from "./musicUsed.json" assert { type: "json" };
+import linksMusicUsed from "./musicUsed.json" assert { type: "json" };
 
 export default function () {
-	musicUsedObject.linksMusicUsed = [];
-	fs.writeFileSync("./utils/music/musicUsed.json", JSON.stringify(musicUsedObject), {
+	linksMusicUsed.splice(0, linksMusicUsed.length);
+	fs.writeFileSync("./utils/music/musicUsed.json", JSON.stringify(linksMusicUsed), {
 		encoding: "utf-8",
 	});
 }
