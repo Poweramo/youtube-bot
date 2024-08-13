@@ -1,6 +1,7 @@
 // GOAL: Purpose: gets one video from the channel nocopyrightmusic https://www.youtube.com/@NoCopyrightSounds
 
 import config from "../../config.json" assert { type: "json" };
+import getMusicLength from "./getMusicLength.js";
 
 export default async function () {
 	const res = await fetch(
@@ -12,7 +13,12 @@ export default async function () {
 
 	for (let i = 0; i < videos.length; i++) {
 		const video = videos[i];
-		links.push("https://www.youtube.com/watch?v=" + video.snippet.resourceId.videoId);
+		const id = video.snippet.resourceId.videoId;
+		const duration = await getMusicLength(id);
+
+		if (duration > 61 && duration < 240) {
+			links.push("https://www.youtube.com/watch?v=" + id);
+		}
 	}
 
 	return links;
