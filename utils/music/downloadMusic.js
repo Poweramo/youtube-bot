@@ -8,7 +8,7 @@ import delay from "../others/delay.js";
 export default async function (link) {
 	const downloadPath = path.resolve("./assets/music");
 	const YtToMp3Website = "https://5smp3.com/";
-	const browser = await puppeteer.launch();
+	const browser = await puppeteer.launch({ slowMo: 100 });
 	const page = await browser.newPage();
 	const client = await page.createCDPSession();
 
