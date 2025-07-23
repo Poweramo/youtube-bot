@@ -1,5 +1,6 @@
 import { get } from "https";
 import { Readable } from "stream";
+// FIX: getting readable stream of https://example.mp4 doesn't work
 
 export default function (url) {
 	const readable = new Readable({
